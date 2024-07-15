@@ -20,13 +20,19 @@ public class GamePanel extends JPanel implements Runnable{
     public final int screenWidth = tileSize * maxScreenCol; // 768 pixels
     public final int screenHeight = tileSize * maxScreenRow; // 576 pixels
 
+    //WORLDS SETTINGS
+    public final int maxWorldCol = 100;
+    public final int maxWorldRow = 100;
+    public final int worldWidth = tileSize - maxWorldCol;
+    public final int worldHeight = tileSize - maxWorldRow;
+
     //FPS
     int FPS = 60;
 
     TileManager tileN = new TileManager(this);
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
-    Player player = new Player(this, keyH);
+    public Player player = new Player(this, keyH);
 
     // Set player's default position(not needed anymore because we took care of player movement in player class. I will keep for learning purposes for now)
     //int playerX = 100;
