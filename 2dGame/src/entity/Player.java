@@ -2,6 +2,7 @@ package entity;
 
 import main.KeyHandler;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -22,6 +23,12 @@ public class Player extends Entity{
 
         screenX = gp.screenWidth/2 - (gp.tileSize/2); // "- (gp.tileSize/2)" is added to make sure charater is displayed in the center of the screen. This is because the coordinates are for the top left of you charater not its center
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
+        solidArea = new Rectangle();
+        solidArea.x = 12;
+        solidArea.y = 16;
+        solidArea.width = 24;
+        solidArea.height = 24;
 
         setDefaultValues();
         getPlayerImage();
@@ -60,21 +67,38 @@ public class Player extends Entity{
 
             if(keyH.upPressed == true) {
                 direction = "up";
-                worldY -= speed;
             }
             else if (keyH.downPressed == true) {
                 direction = "down";
-                worldY += speed;
             }
             else if(keyH.leftPressed == true) {
                 direction = "left";
-                worldX -= speed;
             }
             else if(keyH.rightPressed == true) {
                 direction = "right";
-                worldX += speed;
             }
-    
+
+            //CHECK TILE COLLISION
+            collisionOn = false;
+            gp.cChecker.checkTile(this);
+
+            //IF COLLISION IS FALSE, PLAYER CAN MOVE
+            if(collisionOn == false) {
+                switch(direction) {
+                    case"up":
+                        worldY -= speed;
+                        break;
+                    case"down":
+                        worldY += speed;
+                        break;
+                    case"left":
+                        worldX -= speed;
+                        break;
+                    case"right":
+                        worldX += speed;
+                        break;
+                }
+            }
             spriteCounter++;
             if(spriteCounter > 15) {
                 if(spriteNum == 1) {
